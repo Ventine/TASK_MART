@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Plan de Estudio 🎓🐥</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+    <script type="module" src="app.js" defer></script>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Plan de Estudio Uni 🎓</h1>
+            <p class="subtitle">¡Un paso a la vez hacia tu meta! 🐥🌸</p>
+        </header>
+        
+        <section class="controls">
+            <button id="btnGenerate" class="btn btn-primary" aria-label="Generar tareas aleatorias">
+                🐣 Generar Mi Día de Estudio
+            </button>
+        </section>
+
+        <section id="taskList" class="task-list preview-list" aria-live="polite" hidden></section>
+
+        <section id="actionButtons" class="action-buttons" hidden>
+            <button id="btnReject" class="btn btn-danger">🔄 Mezclar de nuevo</button>
+            <button id="btnAccept" class="btn btn-success">💖 ¡Aceptar el reto!</button>
+        </section>
+
+        <section id="routineTracker" class="routine-tracker" hidden>
+            <div class="custom-task-container">
+                <input type="text" id="inputCustomTask" placeholder="¿Surgió algo extra? Anótalo aquí 🐰..." aria-label="Nueva tarea extra">
+                <button id="btnAddCustom" class="btn btn-primary btn-small">🎀 Agregar</button>
+            </div>
+
+            <details class="tracker-group" open>
+                <summary>⏳ Por hacer/estudiar (<span id="pendingCount">0</span>)</summary>
+                <div id="pendingTasks" class="tracker-content"></div>
+            </details>
+
+            <details class="tracker-group">
+                <summary>✅ ¡Logrado! (<span id="completedCount">0</span>)</summary>
+                <div id="completedTasks" class="tracker-content"></div>
+            </details>
+        </section>
+
+        <section class="global-stats">
+            <button id="btnShowPendingPool" class="btn btn-outline">🎒 Temario Restante</button>
+            <button id="btnShowCompletedPool" class="btn btn-outline">🏆 Temas Dominados</button>
+            <button id="btnShowCustom" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem; border-color: #cbd5e1;">🌸 Ver Tareas Extra de Hoy</button>
+        </section>
+
+        <section id="historySection" class="history-section" hidden>
+            <h2>🌟 Mis Días Increíbles</h2>
+            <div id="historyList" class="history-list"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>🔒 Tus progresos se guardan seguros en tu compu 🐹✨</p>
+        <button id="btnReset" class="reset-btn" aria-label="Reiniciar aplicación">Empezar un nuevo ciclo</button>
+    </footer>
+</body>
+</html>
