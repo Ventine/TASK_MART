@@ -13,6 +13,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <script type="module" src="app.js" defer></script>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#fbcfe8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
 </head>
 <body>
     <main class="container">
@@ -55,6 +60,8 @@
             <button id="btnShowPendingPool" class="btn btn-outline">🎒 Temario Restante</button>
             <button id="btnShowCompletedPool" class="btn btn-outline">🏆 Temas Dominados</button>
             <button id="btnShowCustom" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem; border-color: #cbd5e1;">🌸 Ver Tareas Extra de Hoy</button>
+            
+            <button id="btnShowChart" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem; border-color: #c4b5fd; color: #6d28d9;">📊 Ver Gráfico de Progreso</button>
         </section>
 
         <section id="historySection" class="history-section" hidden>

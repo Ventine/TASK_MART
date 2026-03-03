@@ -1,0 +1,15 @@
+{
+  "name": "Plan de Estudio UNAL",
+  "short_name": "Estudio UNAL",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fdf2f8",
+  "theme_color": "#fbcfe8",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3503/3503828.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

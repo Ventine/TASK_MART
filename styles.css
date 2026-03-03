@@ -268,3 +268,26 @@ footer { margin-top: auto; padding-top: 3rem; text-align: center; color: var(--t
     .swal2-popup.custom-swal { padding: 1.5rem 1rem !important; }
     .swal-grid { grid-template-columns: 1fr; }
 }
+
+/* =========================================
+   LEYENDA DE DESCANSO ☁️
+   ========================================= */
+.resting-legend {
+    background: #fdf2f8;
+    border: 2px dashed #f9a8d4;
+    color: #831843;
+    padding: 1rem;
+    border-radius: 1.2rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.resting-legend:hover {
+    transform: scale(1.01);
+    background: #fff;
+}

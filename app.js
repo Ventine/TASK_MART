@@ -1,6 +1,5 @@
 class RoutineManager {
     constructor() {
-        // Los 5 pilares exactos del examen de la UNAL + Extras
         this.labels = { 
             matematicas: '🧮', 
             ciencias: '🔬', 
@@ -28,7 +27,8 @@ class RoutineManager {
             btnShowCompletedPool: document.getElementById('btnShowCompletedPool'),
             inputCustomTask: document.getElementById('inputCustomTask'),
             btnAddCustom: document.getElementById('btnAddCustom'),
-            btnShowCustom: document.getElementById('btnShowCustom')
+            btnShowCustom: document.getElementById('btnShowCustom'),
+            btnShowChart: document.getElementById('btnShowChart')
         };
 
         this.tempSelection = null;
@@ -38,10 +38,6 @@ class RoutineManager {
         this.renderHistory();
     }
 
-    /**
-     * BANCO DE DATOS UNAL (Nivel: Principiante / Bases sólidas)
-     * Métodos de estudio simplificados y directos.
-     */
     generateDefaultPool() {
         const baseTopics = {
             matematicas: [
@@ -76,7 +72,6 @@ class RoutineManager {
             ]
         };
 
-        // Métodos de estudio solicitados: Sencillos y sin términos complejos
         const studyMethods = [
             'viendo videos de YT 🎬', 
             'con un taller 📝', 
@@ -84,19 +79,16 @@ class RoutineManager {
             'investigando en internet 🔍', 
             'haciendo tarjetas para memorizar 🗂️',
             'dibujando un mapa mental 🧠',
-            'leyendo un artículo y subrayando 📖'
+            'leyendo un artículo y subrayando 📖',
+            'estudiando con libro 📖'
         ];
 
         const pool = {};
         for (const [cat, topics] of Object.entries(baseTopics)) {
             pool[cat] = topics.map(topic => {
                 const method = studyMethods[Math.floor(Math.random() * studyMethods.length)];
-                // Asigna aleatoriamente 1, 1.5 o 2 horas a este tema
                 const hours = [1, 1.5, 2][Math.floor(Math.random() * 3)];
-                return {
-                    text: `${topic} ${method}`,
-                    hours: hours
-                };
+                return { text: `${topic} ${method}`, hours: hours };
             });
         }
         return pool;
@@ -104,11 +96,10 @@ class RoutineManager {
 
     loadState() {
         try {
-            // V3 forzará la actualización de la caché para cargar los nuevos métodos
-            let savedBlueprint = localStorage.getItem('masterBlueprintUnalV3');
+            let savedBlueprint = localStorage.getItem('masterBlueprintUnalV4');
             if (!savedBlueprint) {
                 savedBlueprint = JSON.stringify(this.generateDefaultPool());
-                localStorage.setItem('masterBlueprintUnalV3', savedBlueprint);
+                localStorage.setItem('masterBlueprintUnalV4', savedBlueprint);
             }
             this.defaultTasks = JSON.parse(savedBlueprint);
 
@@ -126,8 +117,11 @@ class RoutineManager {
             this.todaySchedule = JSON.parse(localStorage.getItem('todayTracker')) || null;
             this.lastGeneratedDate = localStorage.getItem('lastGeneratedDate');
             this.history = JSON.parse(localStorage.getItem('routineHistory')) || [];
+            
+            // Cargar materias en descanso guardadas
+            this.restingCats = JSON.parse(localStorage.getItem('restingCats')) || [];
         } catch (error) {
-            console.log("Actualizando sistema a la nueva versión...");
+            console.log("Actualizando sistema a la versión V4...");
             this.resetSystem(true);
         }
     }
@@ -145,9 +139,6 @@ class RoutineManager {
         }
     }
 
-    /**
-     * ALGORITMO MAESTRO DE HORAS (1.5 a 4.5 horas diarias)
-     */
     generateRoutine() {
         let validCombo = false;
         let attempts = 0;
@@ -160,59 +151,53 @@ class RoutineManager {
             let tempSched = {};
             let tempIndices = {};
             let currentHours = 0;
+            let resting = [];
             
             let shuffledCats = [...categorias].sort(() => Math.random() - 0.5);
 
             for (const cat of shuffledCats) {
                 let options = this.currentPool[cat];
                 
-                if (options.length === 0) {
-                    tempSched[cat] = { name: "✨ Dominado", done: false, hours: 0 };
-                    continue;
-                }
+                if (options.length === 0) continue; // Si ya dominó la materia, la ignoramos visualmente
 
                 let randIdx = Math.floor(Math.random() * options.length);
                 let taskObj = options[randIdx];
 
-                // LÍMITE: Máximo 4.5 horas al día
                 if (currentHours + taskObj.hours <= 4.5) {
-                    // Probabilidad de estudiar: Alta si no hemos llegado a 1.5h
                     let chanceToStudy = currentHours < 1.5 ? 0.9 : 0.4;
                     
                     if (Math.random() < chanceToStudy) {
                         tempSched[cat] = { 
                             name: `${taskObj.text} (⏱️ ${taskObj.hours}h)`, 
+                            rawTask: taskObj, // Guardamos la data cruda para la lógica de devolver a la biblioteca
                             done: false,
                             hours: taskObj.hours
                         };
                         tempIndices[cat] = randIdx;
                         currentHours += taskObj.hours;
                     } else {
-                        tempSched[cat] = { name: "Descanso ☁️", done: false, hours: 0 };
+                        resting.push(cat); // Se va a descanso, no se genera como tarea
                     }
                 } else {
-                    tempSched[cat] = { name: "Descanso ☁️", done: false, hours: 0 };
+                    resting.push(cat);
                 }
             }
 
-            // Validar si el día armado tiene entre 1.5 y 4.5 horas
             if (currentHours >= 1.5 && currentHours <= 4.5) {
                 validCombo = true;
-                this.tempSelection = { schedule: tempSched, indicesToRemove: tempIndices, totalHours: currentHours };
+                this.tempSelection = { schedule: tempSched, indicesToRemove: tempIndices, totalHours: currentHours, restingCats: resting };
             } else {
                 let diff = Math.abs(currentHours - 3);
                 if (diff < bestFallbackDiff && currentHours > 0) {
                     bestFallbackDiff = diff;
-                    bestFallback = { schedule: tempSched, indicesToRemove: tempIndices, totalHours: currentHours };
+                    bestFallback = { schedule: tempSched, indicesToRemove: tempIndices, totalHours: currentHours, restingCats: resting };
                 }
             }
         }
 
-        if (!validCombo && bestFallback) {
-            this.tempSelection = bestFallback;
-        }
+        if (!validCombo && bestFallback) this.tempSelection = bestFallback;
 
-        this.renderPreview(this.tempSelection.schedule);
+        this.renderPreview(this.tempSelection);
         
         this.DOM.taskList.classList.remove('pop-animation');
         void this.DOM.taskList.offsetWidth; 
@@ -223,26 +208,40 @@ class RoutineManager {
         this.DOM.taskList.hidden = false;
     }
 
-    renderPreview(tasks) {
+    renderPreview(selection) {
         this.DOM.taskList.innerHTML = '';
         const fragment = document.createDocumentFragment();
-        for (const [key, taskObj] of Object.entries(tasks)) {
+        
+        // Tareas a estudiar
+        for (const [key, taskObj] of Object.entries(selection.schedule)) {
             const div = document.createElement('div');
             div.className = 'task-item';
             const catName = key.startsWith('custom') ? 'extra' : key;
             div.innerHTML = `<span class="task-category">${this.labels[catName]} ${catName.toUpperCase()}</span><span class="task-name">${taskObj.name}</span>`;
             fragment.appendChild(div);
         }
+
+        // Leyenda de materias en descanso
+        if (selection.restingCats && selection.restingCats.length > 0) {
+            const legend = document.createElement('div');
+            legend.className = 'resting-legend';
+            legend.innerHTML = `☁️ <strong>Hoy descansas en:</strong> ${selection.restingCats.map(c => this.labels[c] + ' ' + c.toUpperCase()).join(', ')}`;
+            fragment.appendChild(legend);
+        }
+
         this.DOM.taskList.appendChild(fragment);
     }
 
     acceptRoutine() {
         if (!this.tempSelection) return;
-        for (const [category, index] of Object.entries(this.tempSelection.indicesToRemove)) {
-            this.currentPool[category].splice(index, 1);
-        }
+        
+        // ¡MAGIA DE RETENCIÓN! Ya no eliminamos las tareas del Pool aquí.
+        // Solo las eliminaremos si marca la casilla de completado.
+
+        this.restingCats = this.tempSelection.restingCats;
         const today = this.getTodayDate();
         this.todaySchedule = this.tempSelection.schedule;
+        
         this.saveData(today);
         this.DOM.taskList.hidden = true; 
         this.lockUI();
@@ -261,6 +260,19 @@ class RoutineManager {
         this.DOM.pendingTasks.innerHTML = '';
         this.DOM.completedTasks.innerHTML = '';
         let pending = 0, completed = 0;
+
+        // Limpiar leyenda antigua
+        let oldLegend = document.getElementById('trackerRestingLegend');
+        if (oldLegend) oldLegend.remove();
+
+        // Agregar nueva leyenda
+        if (this.restingCats && this.restingCats.length > 0) {
+            const legend = document.createElement('div');
+            legend.id = 'trackerRestingLegend';
+            legend.className = 'resting-legend';
+            legend.innerHTML = `☁️ <strong>Hoy descansas en:</strong> ${this.restingCats.map(c => this.labels[c] + ' ' + c.toUpperCase()).join(', ')}`;
+            this.DOM.routineTracker.insertBefore(legend, this.DOM.pendingTasks.parentElement);
+        }
 
         for (const [category, taskObj] of Object.entries(this.todaySchedule)) {
             const div = document.createElement('label');
@@ -297,10 +309,48 @@ class RoutineManager {
     }
 
     toggleTask(category) {
-        this.todaySchedule[category].done = !this.todaySchedule[category].done;
+        const taskObj = this.todaySchedule[category];
+        taskObj.done = !taskObj.done;
+        
+        if (taskObj.done) {
+            this.playPopSound();
+            // REMOVER de la biblioteca (Pool) solo si lo completó
+            if (!taskObj.isCustom && taskObj.rawTask) {
+                const poolArr = this.currentPool[category];
+                if (poolArr) {
+                    const idx = poolArr.findIndex(t => t.text === taskObj.rawTask.text);
+                    if (idx > -1) poolArr.splice(idx, 1);
+                }
+            }
+        } else {
+            // DEVOLVER a la biblioteca si desmarca la casilla
+            if (!taskObj.isCustom && taskObj.rawTask) {
+                const poolArr = this.currentPool[category];
+                if (poolArr) {
+                    const exists = poolArr.some(t => t.text === taskObj.rawTask.text);
+                    if (!exists) poolArr.push(taskObj.rawTask);
+                }
+            }
+        }
+
         this.saveData(this.getTodayDate());
         this.renderTracker();
         this.checkVictory();
+    }
+
+    playPopSound() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
+        oscillator.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.1); 
+        gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); 
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
     }
 
     checkVictory() {
@@ -341,6 +391,7 @@ class RoutineManager {
         localStorage.setItem('taskPool', JSON.stringify(this.currentPool));
         localStorage.setItem('todayTracker', JSON.stringify(this.todaySchedule));
         localStorage.setItem('lastGeneratedDate', todayDate);
+        localStorage.setItem('restingCats', JSON.stringify(this.restingCats || []));
     }
 
     rejectRoutine() { this.generateRoutine(); }
@@ -385,12 +436,13 @@ class RoutineManager {
             if (savedHistory) localStorage.setItem('routineHistory', savedHistory);
 
             const newBlueprint = JSON.stringify(this.generateDefaultPool());
-            localStorage.setItem('masterBlueprintUnalV3', newBlueprint);
+            localStorage.setItem('masterBlueprintUnalV4', newBlueprint);
             this.defaultTasks = JSON.parse(newBlueprint);
 
             this.currentPool = structuredClone(this.defaultTasks);
             this.todaySchedule = null;
             this.lastGeneratedDate = null;
+            this.restingCats = [];
             this.history = keepHistory ? JSON.parse(savedHistory) : [];
             
             this.DOM.btnGenerate.textContent = '🐣 Generar Mi Día de Estudio';
@@ -410,6 +462,50 @@ class RoutineManager {
             if (result.isConfirmed) { 
                 executeReset(); 
                 Swal.fire('Ciclo Nuevo', 'El temario se ha llenado con nuevos retos divertidos. ¡Con toda! 💕', 'success'); 
+            }
+        });
+    }
+
+    showProgressChart() {
+        const consumedTasks = {};
+        let totalConsumed = 0;
+
+        for (const cat in this.defaultTasks) {
+            const originalCount = this.defaultTasks[cat].length;
+            const currentCount = this.currentPool[cat].length;
+            consumedTasks[cat] = originalCount - currentCount;
+            totalConsumed += consumedTasks[cat];
+        }
+
+        if (totalConsumed === 0) {
+            Swal.fire({ title: 'Aún no hay datos', text: 'Completa algunos temas para ver tu gráfica 🌸', icon: 'info', confirmButtonColor: '#f9a8d4', customClass: { popup: 'custom-swal' } });
+            return;
+        }
+
+        const labels = Object.keys(consumedTasks).filter(c => consumedTasks[c] > 0).map(c => `${this.labels[c]} ${c.toUpperCase()}`);
+        const data = Object.values(consumedTasks).filter(v => v > 0);
+
+        Swal.fire({
+            title: '📊 Tu Progreso UNAL',
+            html: '<div style="width: 100%; max-width: 300px; margin: auto;"><canvas id="progressChart"></canvas></div>',
+            confirmButtonColor: '#c4b5fd',
+            confirmButtonText: '¡A seguir así!',
+            customClass: { popup: 'custom-swal' },
+            didOpen: () => {
+                const ctx = document.getElementById('progressChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: ['#fbcfe8', '#d9f99d', '#fed7aa', '#c4b5fd', '#bae6fd'],
+                            borderWidth: 3,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: { plugins: { legend: { position: 'bottom', labels: { font: { family: 'Nunito', weight: 'bold' } } } } }
+                });
             }
         });
     }
@@ -529,6 +625,7 @@ class RoutineManager {
         
         this.DOM.btnShowPendingPool.addEventListener('click', () => this.showPendingPool());
         this.DOM.btnShowCompletedPool.addEventListener('click', () => this.showCompletedPool());
+        if(this.DOM.btnShowChart) this.DOM.btnShowChart.addEventListener('click', () => this.showProgressChart());
         
         this.DOM.btnAddCustom.addEventListener('click', () => this.addCustomTask());
         this.DOM.btnShowCustom.addEventListener('click', () => this.showCustomTasks());
@@ -547,3 +644,12 @@ class RoutineManager {
 }
 
 document.addEventListener('DOMContentLoaded', () => new RoutineManager());
+
+// REGISTRO DE PWA (Service Worker)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('PWA Lista y funcionando offline 🚀', reg.scope))
+            .catch(err => console.error('Error registrando PWA:', err));
+    });
+}
