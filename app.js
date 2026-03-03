@@ -38,57 +38,77 @@ class RoutineManager {
         this.renderHistory();
     }
 
+    /**
+     * BASE DE DATOS DALTON ACADEMY + ENCARTA 💿
+     */
     generateDefaultPool() {
         const baseTopics = {
             matematicas: [
-                'Fracciones y Decimales', 'Regla de Tres Simple', 'Porcentajes Básicos', 
-                'Ley de los Signos', 'Despeje de Ecuaciones (x)', 'Áreas y Perímetros', 
-                'Teorema de Pitágoras', 'Lectura de Gráficas de Barras', 'Probabilidad con Monedas/Dados',
-                'Jerarquía de Operaciones', 'Propiedades de los Exponentes', 'Plano Cartesiano'
+                'Estudiar libro de matemáticas 📖',
+                'Estudiar Lógica: Proposiciones, cuantificadores y silogismos 🧠',
+                'Estudiar Conjuntos: Operaciones, cardinalidad y conteo 🔗',
+                'Estudiar Sistemas numéricos: Naturales, enteros, reales y regla de tres 🔢',
+                'Estudiar Polinomios 1 y 2: Factorización, Teorema del residuo y binomio ✖️',
+                'Estudiar Ecuaciones e inecuaciones: Lineales, cuadráticas y valor absoluto ⚖️',
+                'Estudiar Geometría: Triángulos, poliedros, volúmenes y áreas 📐',
+                'Estudiar Plano cartesiano y rectas: Perpendicularidad y sistemas 2x2 📈',
+                'Estudiar Relaciones y cónicas: Circunferencias, parábolas y elipses ⭕',
+                'Estudiar Funciones reales: Dominios, simetrías, inversas y exponenciales 📉',
+                'Estudiar Trigonometría: Razones trigonométricas, Ley del seno y coseno 🔺'
             ],
             ciencias: [
-                'Estados de la Materia', 'Partes de la Célula', 'La Tabla Periódica (Bases)', 
-                'Fotosíntesis Explicada', 'Leyes de Newton (Conceptos)', 'El Ciclo del Agua', 
-                'Tipos de Energía', 'Ecosistemas y Cadenas Alimenticias', 'Estructura del Átomo', 
-                'Sistemas del Cuerpo Humano (Resumen)'
+                'Estudiar con Encarta: Biología - Biomoléculas y la célula 💿🔬',
+                'Estudiar Biología - Membrana: Transporte pasivo, activo y ósmosis 🔬',
+                'Estudiar Biología - Dogma central: ADN, ARN, transcripción y traducción 🧬',
+                'Estudiar con Encarta: Genética, Leyes de Mendel y herencia 💿👨‍🔬',
+                'Estudiar Biología - Microbiología y Evolución (Darwin, Neodarwinismo) 🌿',
+                'Estudiar Biología - Ecología: Ecosistemas y cadenas tróficas 🌍',
+                'Estudiar Química - Materia y Tabla periódica: Enlaces y configuración 🧪',
+                'Estudiar con Encarta: Química - Reacciones, estequiometría y Redox 💿⚖️',
+                'Estudiar Química - Disoluciones y Gases: Concentración y leyes de gases 💨',
+                'Estudiar Química - pH: Ácidos, bases y neutralización 💧'
             ],
             humanidades: [
-                'Línea de Tiempo de la Historia', 'Ramas del Poder Público (Col)', 'Continentes y Océanos', 
-                '¿Qué es la Democracia?', 'Civilizaciones: Egipto y Grecia', 'Derechos Humanos Básicos', 
-                'Geografía Básica de Colombia', 'La Revolución Industrial', 'Sectores de la Economía', 
-                'Símbolos Patrios y Cultura'
+                'Estudiar con Encarta: Geografía - Cartografía, clima y continentes 💿🗺️',
+                'Estudiar Geografía - Continentes: América, Europa, África y Antártida 🌍',
+                'Estudiar con Encarta: Historia Antigua - Roma, Grecia y civilizaciones 💿🏛️',
+                'Estudiar Historia Medieval: Feudalismo, Islam y Cruzadas ⚔️',
+                'Estudiar Historia Moderna: Renacimiento, Ilustración y Revoluciones 📜',
+                'Estudiar con Encarta: Historia Contemporánea - Guerras mundiales 💿💣',
+                'Estudiar Historia de Colombia: Colonia, Independencia y Patria Boba 🇨🇴',
+                'Estudiar Historia de Colombia: El Bipartidismo y La Violencia 🕊️',
+                'Estudiar Filosofía Antigua: Presocráticos, Platón y Aristóteles 🤔',
+                'Estudiar Filosofía Medieval y Moderna: Patrística, Escolástica e Ilustración 🦉'
             ],
             lectura: [
-                'Identificar la Idea Principal', 'Diferencia entre Hecho y Opinión', 'Sinónimos y Antónimos', 
-                'Uso de Signos de Puntuación', 'Tipos de Textos (Narrativo vs Expositivo)', 'Resumen de Cuentos Cortos', 
-                'Prefijos y Sufijos', 'El Tono del Autor', 'Comprensión Literal', 
-                'Figuras Literarias (Metáfora y Símil)'
+                'Estudiar Teoría de la comunicación y Funciones del lenguaje 💬',
+                'Estudiar Gramática: Sustantivos, verbos, conjunciones y adverbios 📝',
+                'Estudiar Morfosintaxis: Oraciones simples y compuestas 🧩',
+                'Estudiar El Párrafo: Estructura, ideas principales y signos de puntuación 📑',
+                'Estudiar Tipología textual: Textos expositivos y descriptivos 📋',
+                'Estudiar Textos narrativos: Elementos de la narración 📖',
+                'Estudiar Textos argumentativos: Tipos de argumentos y dilemas morales ⚖️',
+                'Estudiar con Encarta: Literatura universal y Boom latinoamericano 💿📚',
+                'Estudiar Figuras literarias: Nivel fónico, morfo-sintáctico y semántico 🎭'
             ],
             imagen: [
-                'Figuras Geométricas 2D y 3D', 'Simetría Básica (Espejo)', 'Completar la Serie Gráfica', 
-                'Rotación de Figuras a 90°', 'Identificar Sombras Simples', 'Plegado de Papel (Básico)', 
-                'Diferencias entre Dos Imágenes', 'Vistas (Frente, Arriba, Lado)', 'Rompecabezas Visuales', 
-                'Trazos Continuos sin Levantar el Lápiz'
+                'Estudiar Conceptos básicos de Geometría y descripción de gráficos 📐',
+                'Estudiar Sólidos: Vistas de sólidos y sólidos a partir de vistas 🧊',
+                'Estudiar Sólidos: Rotación de sólidos en el espacio 🔄',
+                'Estudiar Baldosas: Con simetría interna y sin simetría 🔲',
+                'Estudiar Secuencias gráficas y simetrías 🔁',
+                'Estudiar Rompecabezas: Unicolor y con gráficos 🧩',
+                'Estudiar Armables: Conceptos generales 📦',
+                'Estudiar Plegados: Conceptos generales de dobleces 📄'
             ]
         };
-
-        const studyMethods = [
-            'viendo videos de YT 🎬', 
-            'con un taller 📝', 
-            'haciendo un resumen 📓', 
-            'investigando en internet 🔍', 
-            'haciendo tarjetas para memorizar 🗂️',
-            'dibujando un mapa mental 🧠',
-            'leyendo un artículo y subrayando 📖',
-            'estudiando con libro 📖'
-        ];
 
         const pool = {};
         for (const [cat, topics] of Object.entries(baseTopics)) {
             pool[cat] = topics.map(topic => {
-                const method = studyMethods[Math.floor(Math.random() * studyMethods.length)];
-                const hours = [1, 1.5, 2][Math.floor(Math.random() * 3)];
-                return { text: `${topic} ${method}`, hours: hours };
+                // EXIGENCIA DE TIEMPO: Solo 2 o 2.5 horas
+                const hours = [2, 2.5][Math.floor(Math.random() * 2)];
+                return { text: topic, hours: hours };
             });
         }
         return pool;
@@ -96,10 +116,11 @@ class RoutineManager {
 
     loadState() {
         try {
-            let savedBlueprint = localStorage.getItem('masterBlueprintUnalV4');
+            // VERSIÓN 6: Forzamos la actualización para cargar Encarta y los nuevos tiempos
+            let savedBlueprint = localStorage.getItem('masterBlueprintUnalV6');
             if (!savedBlueprint) {
                 savedBlueprint = JSON.stringify(this.generateDefaultPool());
-                localStorage.setItem('masterBlueprintUnalV4', savedBlueprint);
+                localStorage.setItem('masterBlueprintUnalV6', savedBlueprint);
             }
             this.defaultTasks = JSON.parse(savedBlueprint);
 
@@ -117,11 +138,9 @@ class RoutineManager {
             this.todaySchedule = JSON.parse(localStorage.getItem('todayTracker')) || null;
             this.lastGeneratedDate = localStorage.getItem('lastGeneratedDate');
             this.history = JSON.parse(localStorage.getItem('routineHistory')) || [];
-            
-            // Cargar materias en descanso guardadas
             this.restingCats = JSON.parse(localStorage.getItem('restingCats')) || [];
         } catch (error) {
-            console.log("Actualizando sistema a la versión V4...");
+            console.log("Actualizando sistema a la versión Dalton + Encarta...");
             this.resetSystem(true);
         }
     }
@@ -157,37 +176,38 @@ class RoutineManager {
 
             for (const cat of shuffledCats) {
                 let options = this.currentPool[cat];
-                
-                if (options.length === 0) continue; // Si ya dominó la materia, la ignoramos visualmente
+                if (options.length === 0) continue; 
 
                 let randIdx = Math.floor(Math.random() * options.length);
                 let taskObj = options[randIdx];
 
+                // RESTRICCIÓN MÁXIMA: 4.5 horas diarias en total
                 if (currentHours + taskObj.hours <= 4.5) {
-                    let chanceToStudy = currentHours < 1.5 ? 0.9 : 0.4;
+                    let chanceToStudy = currentHours < 2 ? 0.9 : 0.4;
                     
                     if (Math.random() < chanceToStudy) {
                         tempSched[cat] = { 
                             name: `${taskObj.text} (⏱️ ${taskObj.hours}h)`, 
-                            rawTask: taskObj, // Guardamos la data cruda para la lógica de devolver a la biblioteca
+                            rawTask: taskObj,
                             done: false,
                             hours: taskObj.hours
                         };
                         tempIndices[cat] = randIdx;
                         currentHours += taskObj.hours;
                     } else {
-                        resting.push(cat); // Se va a descanso, no se genera como tarea
+                        resting.push(cat); 
                     }
                 } else {
                     resting.push(cat);
                 }
             }
 
-            if (currentHours >= 1.5 && currentHours <= 4.5) {
+            // RESTRICCIÓN MÍNIMA: Al menos 2 horas por día de estudio
+            if (currentHours >= 2 && currentHours <= 4.5) {
                 validCombo = true;
                 this.tempSelection = { schedule: tempSched, indicesToRemove: tempIndices, totalHours: currentHours, restingCats: resting };
             } else {
-                let diff = Math.abs(currentHours - 3);
+                let diff = Math.abs(currentHours - 4);
                 if (diff < bestFallbackDiff && currentHours > 0) {
                     bestFallbackDiff = diff;
                     bestFallback = { schedule: tempSched, indicesToRemove: tempIndices, totalHours: currentHours, restingCats: resting };
@@ -212,7 +232,6 @@ class RoutineManager {
         this.DOM.taskList.innerHTML = '';
         const fragment = document.createDocumentFragment();
         
-        // Tareas a estudiar
         for (const [key, taskObj] of Object.entries(selection.schedule)) {
             const div = document.createElement('div');
             div.className = 'task-item';
@@ -221,7 +240,6 @@ class RoutineManager {
             fragment.appendChild(div);
         }
 
-        // Leyenda de materias en descanso
         if (selection.restingCats && selection.restingCats.length > 0) {
             const legend = document.createElement('div');
             legend.className = 'resting-legend';
@@ -234,10 +252,6 @@ class RoutineManager {
 
     acceptRoutine() {
         if (!this.tempSelection) return;
-        
-        // ¡MAGIA DE RETENCIÓN! Ya no eliminamos las tareas del Pool aquí.
-        // Solo las eliminaremos si marca la casilla de completado.
-
         this.restingCats = this.tempSelection.restingCats;
         const today = this.getTodayDate();
         this.todaySchedule = this.tempSelection.schedule;
@@ -249,7 +263,7 @@ class RoutineManager {
         
         Swal.fire({ 
             title: '¡Plan Guardado!', 
-            text: `Hoy tu meta es un estudio relajado de ${this.tempSelection.totalHours} horas. ¡Disfruta el proceso! 💕`, 
+            text: `Hoy tu meta es de ${this.tempSelection.totalHours} horas. ¡Disfruta el proceso! 💕`, 
             icon: 'info', 
             confirmButtonColor: '#f9a8d4' 
         });
@@ -261,11 +275,9 @@ class RoutineManager {
         this.DOM.completedTasks.innerHTML = '';
         let pending = 0, completed = 0;
 
-        // Limpiar leyenda antigua
         let oldLegend = document.getElementById('trackerRestingLegend');
         if (oldLegend) oldLegend.remove();
 
-        // Agregar nueva leyenda
         if (this.restingCats && this.restingCats.length > 0) {
             const legend = document.createElement('div');
             legend.id = 'trackerRestingLegend';
@@ -314,7 +326,6 @@ class RoutineManager {
         
         if (taskObj.done) {
             this.playPopSound();
-            // REMOVER de la biblioteca (Pool) solo si lo completó
             if (!taskObj.isCustom && taskObj.rawTask) {
                 const poolArr = this.currentPool[category];
                 if (poolArr) {
@@ -323,7 +334,6 @@ class RoutineManager {
                 }
             }
         } else {
-            // DEVOLVER a la biblioteca si desmarca la casilla
             if (!taskObj.isCustom && taskObj.rawTask) {
                 const poolArr = this.currentPool[category];
                 if (poolArr) {
@@ -374,8 +384,8 @@ class RoutineManager {
 
             if (poolEmpty) {
                 Swal.fire({ 
-                    title: '¡TEMARIO MAESTRO! 🎓', 
-                    text: 'Has dominado todos los temas básicos de la semana. Tómate un merecido descanso, la caché se reiniciará para un nuevo nivel.', 
+                    title: '¡TEMARIO MAESTRO DALTON! 🎓', 
+                    text: 'Has dominado todos los temas del pre-UNAL. Tómate un merecido descanso, la caché se reiniciará para un nuevo nivel.', 
                     icon: 'success', 
                     confirmButtonColor: '#d9f99d' 
                 }).then(() => {
@@ -436,7 +446,7 @@ class RoutineManager {
             if (savedHistory) localStorage.setItem('routineHistory', savedHistory);
 
             const newBlueprint = JSON.stringify(this.generateDefaultPool());
-            localStorage.setItem('masterBlueprintUnalV4', newBlueprint);
+            localStorage.setItem('masterBlueprintUnalV6', newBlueprint);
             this.defaultTasks = JSON.parse(newBlueprint);
 
             this.currentPool = structuredClone(this.defaultTasks);
@@ -461,7 +471,7 @@ class RoutineManager {
         }).then((result) => {
             if (result.isConfirmed) { 
                 executeReset(); 
-                Swal.fire('Ciclo Nuevo', 'El temario se ha llenado con nuevos retos divertidos. ¡Con toda! 💕', 'success'); 
+                Swal.fire('Ciclo Nuevo', 'El temario se ha llenado con nuevos retos de Dalton Academy. ¡Con toda! 💕', 'success'); 
             }
         });
     }
